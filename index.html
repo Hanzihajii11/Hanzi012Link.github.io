@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Cá Nhân - HanziLink</title>
+    <style>
+        /* ... Các phần CSS của bạn không thay đổi ... */
+    </style>
+</head>
+<body>
+<header>
+    <h1>Chào mừng Đến với HanziLink</h1>
+</header>
+
+<!-- Navigation Bar -->
+<div class="nav-bar">
+    <button onclick="openModal('signupModal')">Đăng Ký</button>
+    <button onclick="openModal('loginModal')">Đăng Nhập</button>
+</div>
+
+<div class="content">
+    <!-- ... Các phần nội dung của bạn không thay đổi ... -->
+</div>
+
+<footer>
+    <p>© 2024 [Tên Của Bạn]. Tất cả các quyền được bảo lưu.</p>
+</footer>
+
+<!-- Signup Modal -->
+<div id="signupModal" class="modal">
+    <div class="modal-content">
+        <h3>Đăng Ký</h3>
+        <div id="signupNotification"></div>
+        <input type="text" id="signupUsername" placeholder="Tên đăng nhập" required>
+        <input type="password" id="signupPassword" placeholder="Mật khẩu" required>
+        <input type="password" id="signupConfirmPassword" placeholder="Xác nhận mật khẩu" required>
+        <button onclick="signup()">Đăng Ký</button>
+        <button onclick="closeModal('signupModal')" style="margin-top: 10px; color: #3498db; background: none; border: none; cursor: pointer;">Đóng</button>
+    </div>
+</div>
+
+<script>
+    // Array to store registered usernames
+    const registeredUsernames = [];
+
+    // Function to check if username meets criteria
+    function validateUsername(username) {
+        const usernamePattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/;
+        if (!usernamePattern.test(username)) {
+            document.getElementById('signupNotification').innerHTML = 'Tên đăng nhập phải có cả chữ cái và chữ số!';
+            return false;
+        }
+        if (registeredUsernames.includes(username)) {
+            document.getElementById('signupNotification').innerHTML = 'Tên đăng nhập đã tồn tại, vui lòng chọn tên khác!';
+            return false;
+        }
+        return true;
+    }
+
+    // Function to check if password meets criteria
+    function validatePassword(password) {
+        const passwordPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{6,}$/;
+        if (!passwordPattern.test(password)) {
+            document.getElementById('signupNotification').innerHTML = 'Mật khẩu phải có ít nhất 6 ký tự và bao gồm ký tự đặc biệt!';
+            return false;
+        }
+        return true;
+    }
+
+    // Signup function
+    function signup() {
+        const username = document.getElementById('signupUsername').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+        // Validate username and password
+        if (!validateUsername(username) || !validatePassword(password)) {
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            document.getElementById('signupNotification').innerHTML = 'Mật khẩu không khớp!';
+            return;
+        }
+
+        // Register user
+        registeredUsernames.push(username);
+        document.getElementById('signupNotification').innerHTML = 'Đăng ký thành công! Đang chuyển sang đăng nhập...';
+        
+        setTimeout(() => {
+            closeModal('signupModal');
+            openModal('loginModal');
+        }, 2000);
+    }
+</script>
+</body>
+</html>
